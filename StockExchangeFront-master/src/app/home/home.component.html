@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="col">
+    <div class="row">
+      <div>
+        <h1 class="display-4">Available Stocks</h1>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Company</th>
+            <th scope="col">Stock Code</th>
+            <th scope="col">Current Price</th>
+            <th scope="col">Amount For Sale</th>
+            <th scope="col">Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of rows; let i = index;">
+            <td>{{i}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.code}}</td>
+            <td>{{row.price}}</td>
+            <td>{{row.unit}}</td>
+            <td>
+              <mat-form-field>
+                <input matInput type="number" name="amount" placeholder="Buy amount" max="{{row.unit}}" min="0" #buyAmount>
+              </mat-form-field>
+              <button type="button" class="btn btn-primary" [disabled]="!isAuthenticated() && (row.unit==0 || buyAmount.value> row.unit)" (click)="buy(i, buyAmount.value)">Buy</button>
+            </td>
+          </tr>
+          <tr *ngIf="!rows">
+            <td colspan="6" style="text-align: center;">
+              <h5>Pleas login to show available stocks :)</h5>
+            </td>
+          </tr>
+          <tr *ngIf="!isAuthenticated()">
+            <td colspan="6" style="text-align: center;">
+              <h5>Please login</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="row">
+      <div>
+        <h1 class="display-4">Wallet <small *ngIf="isAuthenticated()"> - available cash: {{cash}}</small></h1>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Company</th>
+            <th scope="col">Stock Code</th>
+            <th scope="col">Average price</th>
+            <th scope="col">Amount For Sale</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stock of walletStocks; let i = index;">
+            <td>{{i}}</td>
+            <td>{{stock.name}}</td>
+            <td>{{stock.code}}</td>
+            <td>{{stock.price}}</td>
+            <td>{{stock.unit}}</td>
+            <td>
+              <mat-form-field>
+                <input matInput type="number" ng-model="amount" placeholder="Sell amount" max="{{stock.unit}}" min="0" #sellAmount>
+              </mat-form-field>
+              <button type="button" class="btn btn-primary" [disabled]="!isAuthenticated() &&(stock.unit == 0 || sellAmount.value >stock.unit)" (click)="sell(i, sellAmount.value)">Sell</button>
+            </td>
+          </tr>
+          <tr *ngIf="!walletStocks">
+            <td colspan="6" style="text-align: center;">
+              <h5>You have no bought stocks :(</h5>
+            </td>
+          </tr>
+          <tr *ngIf="!isAuthenticated()">
+            <td colspan="6" style="text-align: center;">
+              <h5>Please login</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
