@@ -1,0 +1,22 @@
+<div>
+  <mat-progress-bar *ngIf="processingAnim" mode="query"></mat-progress-bar>
+  <div *ngIf="result?.code == 200" class="alert alert-success" role="alert">
+    Login successful!
+  </div>
+  <div *ngIf="result?.code !== -1 && result?.code !== 200" class="alert alert-danger" role="alert">
+    Login falied!
+    <br> Invalid username or password.
+  </div>
+  <form (ngSubmit)="submit()" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password">
+    </div>
+    <input [disabled]="result?.code==0" type="submit" class="btn btn-success btn-block" value="Login">
+  </form>
+  <input type="button" (click)="register()" class="btn btn-info btn-block" value="Register">
+</div>
